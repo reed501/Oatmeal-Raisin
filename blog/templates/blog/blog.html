@@ -1,0 +1,8 @@
+<h1>Blog Description: {{ blog.blog_desc }}</h1>
+<h3>Posts:</h3>
+
+<ul>
+{% for post in posts %}
+    <li><a href="{% url 'blog:comment' 1 post.id %}">{{ post.content }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+{% endfor %}
+</ul>
