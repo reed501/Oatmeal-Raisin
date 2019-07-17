@@ -3,6 +3,6 @@
 
 <ul>
 {% for post in posts %}
-    <li><a href="{% url 'blog:comment' 1 post.id %}">{{ post.content }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+    <li><a href="{% url 'blog:comment' post.id %}">{{ post.content }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
 {% endfor %}
 </ul>
