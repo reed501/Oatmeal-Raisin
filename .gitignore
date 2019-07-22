@@ -1,2 +1,3 @@
 mysite/settings.py
 env/
+blog/__pycache__
