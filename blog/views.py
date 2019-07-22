@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
+from django.utils.timezone import datetime
 
 from .models import Blog, Post, BlogPost, Comment, PostComment
+from .forms import PostForm
 
 
 class IndexView(generic.ListView):
@@ -28,3 +31,21 @@ class PostView(generic.ListView):
 def comments(request, pid):
     comms = Comment.objects.filter(postcomment__post_id=pid)
     return render(request, 'blog/comment.html', {'comments': comms})
+
+def make_post(request, bid):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            post = Post.objects.create(title=title, content=content, hidden=False, likes=0, dislikes=0, date=datetime.now())
+            post.save()
+            bp = BlogPost.objects.create(blog_id=bid, post_id=post.id)
+            bp.save()
+            return HttpResponseRedirect('/')
+
+    else:
+        form = PostForm()
+
+    return render(request, 'blog/addpost.html', {'form': form})
+
