@@ -8,6 +8,8 @@ from django.db.models import F
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
 from .forms import PostForm, SignUp, LogIn, CommentForm
 
+from django.contrib.auth.models import User
+
 
 class IndexView(generic.ListView):
     model = Blog
@@ -86,6 +88,11 @@ def addComment(request, pid):
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
 
+def profile(request,profid):
+    person = Profile.objects.get(id=profid)
+    args = {'user': person}
+    return render(request, 'blog/profile.html', args)
+
 def addLike(request, pid):
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
     return HttpResponseRedirect('/')
@@ -93,3 +100,4 @@ def addLike(request, pid):
 def addDislike(request, pid):
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
     return HttpResponseRedirect('/')
+
