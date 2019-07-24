@@ -8,6 +8,8 @@ urlpatterns = [
     path('<int:bid>/', views.PostView.as_view(), name='post'),
     path('<int:pid>/comments', views.CommentView.as_view(), name='comment'),
     path('<int:bid>/addpost', views.make_post, name='makepost'),
-    path('signup', views.make_account, name='makeaccount'),
-    path('<int:pid>/addcomment', views.addComment, name='addcomment')
+    path('<int:pid>/addcomment', views.addComment, name='addcomment'),
+    path('<int:pid>/addLike', views.addLike, name='addLike'),
+    path('<int:pid>/addDislike', views.addDislike, name='addDislike')
+    path('signup', views.make_account, name='makeaccount')
 ]

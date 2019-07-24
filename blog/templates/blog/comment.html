@@ -4,6 +4,10 @@
 {{ post.content }}
 <br>
 
+<br>
+
+{{ post.likes }}&nbsp;<a href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<a href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+
 <h3>Comments:</h3>
 <ul>
 {% for com in comments %}
