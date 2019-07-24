@@ -4,8 +4,9 @@ from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
 
-from .models import Blog, Post, BlogPost, Comment, PostComment
+from .models import Blog, Post, BlogPost, Comment, PostComment, Profile
 from .forms import PostForm, CommentForm
+from django.contrib.auth.models import User
 
 
 class IndexView(generic.ListView):
@@ -35,6 +36,7 @@ class CommentView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
         return context
+
 
 def make_post(request, bid):
     if request.method == 'POST':
@@ -66,3 +68,8 @@ def addComment(request, pid):
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
+
+def profile(request,profid):
+    person = Profile.objects.get(id=profid)
+    args = {'user': person}
+    return render(request, 'blog/profile.html', args)
