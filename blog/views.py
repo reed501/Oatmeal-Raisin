@@ -5,7 +5,7 @@ from django.views import generic
 from django.utils.timezone import datetime
 
 from .models import Blog, Post, BlogPost, Comment, PostComment
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 class IndexView(generic.ListView):
@@ -46,6 +46,19 @@ def make_post(request, bid):
 
     else:
         form = PostForm()
-
     return render(request, 'blog/addpost.html', {'form': form})
 
+def addComment(request, pid):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            cont = form.cleaned_data['content']
+            comm = Comment.objects.create(content=cont, date=datetime.now())
+            comm.save()
+            post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
+            post.save()
+            #CommentProfile.objects.create(comment_id=comm).update(profile=user)
+            return HttpResponseRedirect('/')
+    else:
+        form = CommentForm()
+    return render(request, 'blog/addcomment.html', {'form' : form})
