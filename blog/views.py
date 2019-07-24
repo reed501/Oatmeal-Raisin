@@ -5,8 +5,9 @@ from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
 
-from .models import Blog, Post, BlogPost, Comment, PostComment, Profile
-from .forms import PostForm, CommentForm
+from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
+from .forms import PostForm, SignUp, LogIn, CommentForm
+
 from django.contrib.auth.models import User
 
 
