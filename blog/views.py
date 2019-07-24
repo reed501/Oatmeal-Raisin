@@ -62,3 +62,9 @@ def addComment(request, pid):
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
+
+def addLike(pid):
+    Post.objects.filter(post_id=pid).update(likes=f('likes')+1)
+
+def addDislike(pid):
+    Post.objects.filter(post_id=pid).update(dislikes=f('dislikes')+1)
