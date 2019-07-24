@@ -5,8 +5,8 @@ from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
 
-from .models import Blog, Post, BlogPost, Comment, PostComment
-from .forms import PostForm, CommentForm
+from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
+from .forms import PostForm, SignUp, LogIn, CommentForm
 
 
 class IndexView(generic.ListView):
@@ -16,7 +16,7 @@ class IndexView(generic.ListView):
 class PostView(generic.ListView):
     context_object_name = 'posts'
     template_name = 'blog/blog.html'
-    
+
     def get_queryset(self):
         return Post.objects.filter(blogpost__blog_id=self.kwargs['bid'])
 
@@ -36,6 +36,24 @@ class CommentView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
         return context
+
+def make_account(request):
+    if request.method == 'POST':
+        form = SignUp(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+
+            profile = Profile.objects.create(email=email, name=name, password=password, birth=datetime.now(), bio="")
+            profile.save()
+            
+            return HttpResponseRedirect('/')
+
+    else:
+        form = SignUp()
+
+    return render(request, 'blog/signup.html', {'form': form})
 
 def make_post(request, bid):
     if request.method == 'POST':
