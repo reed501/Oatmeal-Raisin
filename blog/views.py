@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
+from django.db.models import F
 
 from .models import Blog, Post, BlogPost, Comment, PostComment
 from .forms import PostForm, CommentForm
@@ -67,8 +68,10 @@ def addComment(request, pid):
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
 
-def addLike(pid):
-    Post.objects.filter(post_id=pid).update(likes=f('likes')+1)
+def addLike(request, pid):
+    Post.objects.filter(id=pid).update(likes=F('likes')+1)
+    return HttpResponseRedirect('/')
 
-def addDislike(pid):
-    Post.objects.filter(post_id=pid).update(dislikes=f('dislikes')+1)
+def addDislike(request, pid):
+    Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
+    return HttpResponseRedirect('/')
