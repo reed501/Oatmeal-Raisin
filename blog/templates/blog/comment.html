@@ -1,5 +1,7 @@
+<h3>Comments:</h3>
 <ul>
 {% for com in comments %}
     <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
 {% endfor %}
 </ul>
+<h3><a href="{% url 'blog:addcomment' 1 %}">Make a New Comment</a></h3>

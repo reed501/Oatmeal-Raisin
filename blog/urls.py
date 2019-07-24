@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:bid>/', views.PostView.as_view(), name='post'),
     path('<int:pid>/comments', views.comments, name='comment'),
     path('<int:bid>/addpost', views.make_post, name='makepost'),
+    path('<int:pid>/addcomment', views.addComment, name='addcomment')
 ]
