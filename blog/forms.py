@@ -13,3 +13,6 @@ class LogIn(forms.Form):
     email = forms.CharField(label='Email', max_length=40)
     name = forms.CharField(label='Name',max_length=40)
     password = forms.CharField(label='Password',max_length=30)
+    
+class CommentForm(forms.Form):
+    content = forms.CharField(label='Comment', max_length=1000)

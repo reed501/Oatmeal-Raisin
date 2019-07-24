@@ -5,16 +5,12 @@ from django.views import generic
 from django.utils.timezone import datetime
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
-from .forms import PostForm, SignUp, LogIn
+from .forms import PostForm, SignUp, LogIn, CommentForm
 
 
 class IndexView(generic.ListView):
     model = Blog
     template_name = 'blog/index.html'
-
-#def posts(request, bid):
- #   posts = Post.objects.filter(blogpost__blog_id=bid)
-  #  return render(request, 'blog/blog.html', {'posts': posts})
 
 class PostView(generic.ListView):
     context_object_name = 'posts'
@@ -28,9 +24,17 @@ class PostView(generic.ListView):
         context['blog'] = Blog.objects.get(id=self.kwargs['bid'])
         return context
 
-def comments(request, pid):
-    comms = Comment.objects.filter(postcomment__post_id=pid)
-    return render(request, 'blog/comment.html', {'comments': comms})
+class CommentView(generic.ListView):
+    context_object_name = 'comments'
+    template_name = 'blog/comment.html'
+    
+    def get_queryset(self):
+        return Comment.objects.filter(postcomment__post_id=self.kwargs['pid'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = Post.objects.get(id=self.kwargs['pid'])
+        return context
 
 def make_account(request):
     if request.method == 'POST':
@@ -64,5 +68,19 @@ def make_post(request, bid):
 
     else:
         form = PostForm()
-
     return render(request, 'blog/addpost.html', {'form': form})
+
+def addComment(request, pid):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            cont = form.cleaned_data['content']
+            comm = Comment.objects.create(content=cont, date=datetime.now())
+            comm.save()
+            post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
+            post.save()
+            #CommentProfile.objects.create(comment_id=comm).update(profile=user)
+            return HttpResponseRedirect('/')
+    else:
+        form = CommentForm()
+    return render(request, 'blog/addcomment.html', {'form' : form})
