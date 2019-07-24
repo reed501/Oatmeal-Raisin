@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
 
-from .models import Blog, Post, BlogPost, Comment, PostComment
-from .forms import PostForm
+from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
+from .forms import PostForm, SignUp, LogIn
 
 
 class IndexView(generic.ListView):
@@ -19,7 +19,7 @@ class IndexView(generic.ListView):
 class PostView(generic.ListView):
     context_object_name = 'posts'
     template_name = 'blog/blog.html'
-    
+
     def get_queryset(self):
         return Post.objects.filter(blogpost__blog_id=self.kwargs['bid'])
 
@@ -31,6 +31,24 @@ class PostView(generic.ListView):
 def comments(request, pid):
     comms = Comment.objects.filter(postcomment__post_id=pid)
     return render(request, 'blog/comment.html', {'comments': comms})
+
+def make_account(request):
+    if request.method == 'POST':
+        form = SignUp(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+
+            profile = Profile.objects.create(email=email, name=name, password=password, birth=datetime.now(), bio="")
+            profile.save()
+            
+            return HttpResponseRedirect('/')
+
+    else:
+        form = SignUp()
+
+    return render(request, 'blog/signup.html', {'form': form})
 
 def make_post(request, bid):
     if request.method == 'POST':
@@ -48,4 +66,3 @@ def make_post(request, bid):
         form = PostForm()
 
     return render(request, 'blog/addpost.html', {'form': form})
-
