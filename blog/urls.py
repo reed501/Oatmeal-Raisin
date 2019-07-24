@@ -10,6 +10,6 @@ urlpatterns = [
     path('<int:bid>/addpost', views.make_post, name='makepost'),
     path('<int:pid>/addcomment', views.addComment, name='addcomment'),
     path('<int:pid>/addLike', views.addLike, name='addLike'),
-    path('<int:pid>/addDislike', views.addDislike, name='addDislike')
+    path('<int:pid>/addDislike', views.addDislike, name='addDislike'),
     path('signup', views.make_account, name='makeaccount')
 ]
