@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:pid>/addcomment', views.addComment, name='addcomment'),
     path('<int:pid>/addLike', views.addLike, name='addLike'),
     path('<int:pid>/addDislike', views.addDislike, name='addDislike'),
-    path('signup', views.make_account, name='makeaccount')
+    path('signup', views.make_account, name='makeaccount'),
+    path('login', views.log_in, name='signin')
 ]
