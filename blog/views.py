@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
+from django.contrib.auth import authenticate, login
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
 from .forms import PostForm, SignUp, LogIn, CommentForm
@@ -30,7 +31,7 @@ class PostView(generic.ListView):
 class CommentView(generic.ListView):
     context_object_name = 'comments'
     template_name = 'blog/comment.html'
-    
+
     def get_queryset(self):
         return Comment.objects.filter(postcomment__post_id=self.kwargs['pid'])
 
@@ -38,6 +39,30 @@ class CommentView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
         return context
+
+def log_in(request):
+    if request.method == 'POST':
+        form = LogIn(request.POST)
+
+        if form.is_valid():
+            email_form = form.cleaned_data['email']
+            password_form = form.cleaned_data['password']
+            print(email_form)
+            print(password_form)
+
+            profile = Profile.objects.filter(email = email_form, password = password_form)
+            if profile.count() > 0:
+                user = Profile.objects.get(email = email_form, password = password_form)
+                print("welcome")
+                print(user.id)
+                # return HttpResponseRedirect('comments') #GO TO PROFILE
+            else:
+                print("invalid entry")
+                return HttpResponseRedirect('login') #FAILED LOGIN, BACK TO LOGIN FORM
+    else:
+        form = LogIn()
+
+    return render(request, 'blog/login.html', {'form': form})
 
 def make_account(request):
     if request.method == 'POST':
@@ -49,7 +74,7 @@ def make_account(request):
 
             profile = Profile.objects.create(email=email, name=name, password=password, birth=datetime.now(), bio="")
             profile.save()
-            
+
             return HttpResponseRedirect('/')
 
     else:
