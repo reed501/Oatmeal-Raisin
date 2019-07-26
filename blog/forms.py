@@ -15,3 +15,5 @@ class LogIn(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(label='Comment', max_length=1000)
+
+
