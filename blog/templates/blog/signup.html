@@ -1,5 +1,23 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Sign Up">
-</form>
+{% load static %}
+
+<html>
+
+<head>
+  <title>Login Form Design</title>
+  <link rel="stylesheet" type="text/css" href="{% static "templates/blog/style.css" %}">
+
+<body>
+  <div class="loginbox">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Sign Up">
+
+    </form>
+
+  </div>
+
+</body>
+</head>
+
+</html>
