@@ -1,3 +1,5 @@
 mysite/settings.py
 env/
 blog/__pycache__/
+__pycache__/
+mysite/__pycache__/
