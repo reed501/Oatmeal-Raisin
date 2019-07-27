@@ -34,6 +34,7 @@ class PostView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
+        context['blog'] = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
         return context
 
 def log_in(request):
