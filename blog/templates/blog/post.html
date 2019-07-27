@@ -8,6 +8,10 @@
 
 {{ post.likes }}&nbsp;<a href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<a href="{% url 'blog:addDislike' post.id %}">Dislike</a>
 
+<br>
+<h3><a href="{% url 'blog:blog' blog.id %}">Return to blog</a></h3>
+<br>
+
 <h3>Comments:</h3>
 <ul>
 {% for com in comments %}
