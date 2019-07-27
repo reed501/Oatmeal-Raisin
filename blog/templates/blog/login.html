@@ -1,5 +1,25 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Log In">
-</form>
+{% load static %}
+
+<html>
+
+<head>
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="{% static "templates/blog/style.css" %}">
+
+<body>
+  <div class="loginbox">
+    <h1>Oatmeal&Raisin</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Log In">
+      <i>Don't have an account?  </i>
+      <a href="{% url 'blog:makeaccount' %}">Sign Up</a>
+    </form>
+
+  </div>
+
+</body>
+</head>
+
+</html>

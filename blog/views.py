@@ -70,10 +70,16 @@ def make_account(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             name = form.cleaned_data['name']
-            password = form.cleaned_data['password']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
 
-            profile = Profile.objects.create(email=email, name=name, password=password, birth=datetime.now(), bio="")
-            profile.save()
+            if password1 == password2:
+                profile = Profile.objects.create(email=email, name=name, password=password1, birth=datetime.now(), bio="")
+                profile.save()
+                print('password match')
+            else:
+                print('Password does not match')
+                return HttpResponseRedirect('signup') #password doesnt match
 
             return HttpResponseRedirect('/')
 
@@ -125,4 +131,3 @@ def addLike(request, pid):
 def addDislike(request, pid):
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
     return HttpResponseRedirect('/')
-
