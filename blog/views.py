@@ -12,11 +12,7 @@ from .forms import PostForm, SignUp, LogIn, CommentForm
 from django.contrib.auth.models import User
 
 
-class IndexView(generic.ListView):
-    model = Blog
-    template_name = 'blog/index.html'
-
-class PostView(generic.ListView):
+class BlogView(generic.ListView):
     context_object_name = 'posts'
     template_name = 'blog/blog.html'
 
@@ -28,9 +24,9 @@ class PostView(generic.ListView):
         context['blog'] = Blog.objects.get(id=self.kwargs['bid'])
         return context
 
-class CommentView(generic.ListView):
+class PostView(generic.ListView):
     context_object_name = 'comments'
-    template_name = 'blog/comment.html'
+    template_name = 'blog/post.html'
 
     def get_queryset(self):
         return Comment.objects.filter(postcomment__post_id=self.kwargs['pid'])
@@ -47,18 +43,14 @@ def log_in(request):
         if form.is_valid():
             email_form = form.cleaned_data['email']
             password_form = form.cleaned_data['password']
-            print(email_form)
-            print(password_form)
 
             profile = Profile.objects.filter(email = email_form, password = password_form)
             if profile.count() > 0:
                 user = Profile.objects.get(email = email_form, password = password_form)
-                print("welcome")
-                print(user.id)
-                # return HttpResponseRedirect('comments') #GO TO PROFILE
+                return redirect('blog:user', profid=user.id)
             else:
                 print("invalid entry")
-                return HttpResponseRedirect('login') #FAILED LOGIN, BACK TO LOGIN FORM
+                return HttpResponseRedirect('/') #FAILED LOGIN, BACK TO LOGIN FORM
     else:
         form = LogIn()
 
@@ -77,12 +69,10 @@ def make_account(request):
                 profile = Profile.objects.create(email=email, name=name, password=password1, birth=datetime.now(), bio="")
                 profile.save()
                 print('password match')
+                return redirect('blog:user', profid=profile.id)
             else:
                 print('Password does not match')
                 return HttpResponseRedirect('signup') #password doesnt match
-
-            return HttpResponseRedirect('/')
-
     else:
         form = SignUp()
 
@@ -98,7 +88,7 @@ def make_post(request, bid):
             post.save()
             bp = BlogPost.objects.create(blog_id=bid, post_id=post.id)
             bp.save()
-            return HttpResponseRedirect('/')
+            return redirect('blog:blog', bid=bid)
 
     else:
         form = PostForm()
@@ -114,7 +104,7 @@ def addComment(request, pid):
             post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
             post.save()
             #CommentProfile.objects.create(comment_id=comm).update(profile=user)
-            return HttpResponseRedirect('/')
+            return redirect('blog:post', pid=pid)
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
@@ -126,8 +116,8 @@ def profile(request,profid):
 
 def addLike(request, pid):
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
-    return HttpResponseRedirect('/')
+    return redirect('blog:post', pid=pid)
 
 def addDislike(request, pid):
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
-    return HttpResponseRedirect('/')
+    return redirect('blog:post', pid=pid)

@@ -44,7 +44,7 @@
   <div class="Blog-post">
     <ul>
     {% for post in posts %}
-        <li><a href="{% url 'blog:comment' post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+        <li><a href="{% url 'blog:post' post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
     {% endfor %}
     </ul>
 
