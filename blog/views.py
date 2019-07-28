@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
-from .forms import PostForm, SignUp, LogIn, CommentForm
+from .forms import PostForm, SignUp, LogIn, CommentForm, BlogForm
 
 class BlogView(generic.ListView):
     context_object_name = 'posts'
@@ -40,10 +40,10 @@ def log_in(request):
         form = LogIn(request.POST)
 
         if form.is_valid():
-            email_form = form.cleaned_data['email']
+            name_form = form.cleaned_data['username']
             password_form = form.cleaned_data['password']
 
-            user = authenticate(request, email=email_form, password=password_form)
+            user = authenticate(request, username=name_form, password=password_form)
             if user is not None:
                 login(request, user)
                 return redirect('blog:user', profid=user.id)
@@ -75,7 +75,22 @@ def make_account(request):
 
     return render(request, 'blog/signup.html', {'form': form})
 
-def make_post(request, bid):
+def addBlog(request, profid):
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            desc = form.cleaned_data['desc']
+            blog = Blog.objects.create(blog_name=title, blog_desc=desc, blog_date=datetime.now())
+            blog.save()
+            pb = ProfileBlog.objects.create(profile_id=profid, blog_id=blog.id)
+            pb.save()
+            return redirect('blog:blog', bid=blog.id)
+    else:
+        form = BlogForm()
+    return render(request, 'blog/addblog.html', {'form': form})
+
+def addPost(request, bid):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():

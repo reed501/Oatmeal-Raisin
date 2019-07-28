@@ -11,8 +11,12 @@ class SignUp(forms.Form):
     password2 = forms.CharField(label='Re-Enter Password',max_length=30, widget=forms.PasswordInput(attrs={'placeholder': 'Re-Enter Password'}))
 
 class LogIn(forms.Form):
-    email = forms.CharField(label='Email', max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Enter Email'}))
+    username = forms.CharField(label='username', max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Enter Username'}))
     password = forms.CharField(label='Password',max_length=30, widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
 
 class CommentForm(forms.Form):
     content = forms.CharField(label='Comment', max_length=1000)
+
+class BlogForm(forms.Form):
+    title = forms.CharField(label='title', max_length=50)
+    desc = forms.CharField(label='desc', max_length=200)
