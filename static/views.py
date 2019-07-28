@@ -5,10 +5,12 @@ from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
 from .forms import PostForm, SignUp, LogIn, CommentForm
+
+from django.contrib.auth.models import User
+
 
 class BlogView(generic.ListView):
     context_object_name = 'posts'
@@ -43,11 +45,12 @@ def log_in(request):
             email_form = form.cleaned_data['email']
             password_form = form.cleaned_data['password']
 
-            user = authenticate(request, email=email_form, password=password_form)
-            if user is not None:
-                login(request, user)
+            profile = Profile.objects.filter(email = email_form, password = password_form)
+            if profile.count() > 0:
+                user = Profile.objects.get(email = email_form, password = password_form)
                 return redirect('blog:user', profid=user.id)
             else:
+                print("invalid entry")
                 return HttpResponseRedirect('/') #FAILED LOGIN, BACK TO LOGIN FORM
     else:
         form = LogIn()
@@ -64,11 +67,12 @@ def make_account(request):
             password2 = form.cleaned_data['password2']
 
             if password1 == password2:
-                user = User.objects.create_user(name, email, password1)
-                user.save()
-                Profile.objects.create(user_id=user.id, birth=datetime.now(), bio="", pic='default')
-                return redirect('blog:user', profid=user.id)
+                profile = Profile.objects.create(email=email, name=name, password=password1, birth=datetime.now(), bio="")
+                profile.save()
+                print('password match')
+                return redirect('blog:user', profid=profile.id)
             else:
+                print('Password does not match')
                 return HttpResponseRedirect('signup') #password doesnt match
     else:
         form = SignUp()
