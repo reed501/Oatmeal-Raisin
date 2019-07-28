@@ -40,11 +40,10 @@ def log_in(request):
         form = LogIn(request.POST)
 
         if form.is_valid():
-            email_form = form.cleaned_data['email']
+            name_form = form.cleaned_data['username']
             password_form = form.cleaned_data['password']
 
-            user = authenticate(request, email=email_form, password=password_form)
-            print(user)
+            user = authenticate(request, username=name_form, password=password_form)
             if user is not None:
                 login(request, user)
                 return redirect('blog:user', profid=user.id)
