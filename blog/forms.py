@@ -16,3 +16,7 @@ class LogIn(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(label='Comment', max_length=1000)
+
+class BlogForm(forms.Form):
+    title = forms.CharField(label='title', max_length=50)
+    desc = forms.CharField(label='desc', max_length=200)
