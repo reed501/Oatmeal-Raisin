@@ -8,7 +8,7 @@
    <h1> OATMEAL RAISIN </h1>
    <h2> Profile</h2>
    {{ profile.pic }}
-   <p> Name: {{ user.username }}</p>
+   <p> Name: {{ userprofile.first_name }}  {{ userprofile.last_name }}</p>
    <p> Birthday: {{ profile.birth }}</p>
    <p> Bio: {{ profile.bio }}</p>
    {% endblock %}
