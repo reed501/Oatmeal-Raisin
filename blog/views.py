@@ -33,7 +33,10 @@ class PostView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
-        context['blog'] = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
+        context['blog'] = blog = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
+        context['profile'] = prof = Profile.objects.get(profileblog__blog_id=blog.id)
+        context['profileuser'] = f = User.objects.get(id=prof.user_id)
+        print(f.username)
         return context
 
 class ProfileView(generic.ListView):
@@ -45,7 +48,8 @@ class ProfileView(generic.ListView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(id=self.kwargs['profid'])
+        context['profile'] = prof = Profile.objects.get(id=self.kwargs['profid'])
+        context['userprofile'] = User.objects.get(id=prof.user_id)
         return context
 
 def log_in(request):
@@ -124,7 +128,7 @@ def addPost(request, bid):
         form = PostForm()
     return render(request, 'blog/addpost.html', {'form': form})
 
-def addComment(request, pid):
+def addComment(request, pid, profid):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():

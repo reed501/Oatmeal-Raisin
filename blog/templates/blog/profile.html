@@ -2,7 +2,6 @@
 
 <link rel="stylesheet" type="text/css" href="{% static "blog/profileStyle.css" %}">
 
-
 <title>Profile</title>
 
 
@@ -25,7 +24,7 @@
   <form>
     <center><br>
       <center>
-        <font size="6">Name: {{ user.username }}</font>
+        <font size="6">Name: {{ userprofile.first_name }}  {{ userprofile.last_name }}</font>
         <br>
         <font size="6">Birthday: {{ profile.birth }}</font>
       </center>
@@ -66,3 +65,6 @@
         {% if user.is_authenticated %}
         <br><br><br><input type="submit" name="" value="Add Blog" href="{% url 'blog:addblog' user.id %}">
         {% endif %}
+
+    </form>
+ </div>

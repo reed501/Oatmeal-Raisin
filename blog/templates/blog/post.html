@@ -2,7 +2,13 @@
 {% block content %}
 
 
-<h2>{{ post.title }}</h2>
+  <div class="Title">
+    <h1>{{ post.title }}</h1>
+    <p><a href="{% url 'blog:user' profile.id %}">by {{ profileuser.first_name }} &nbsp; {{ profileuser.last_name }}</a>
+      <br>
+       {{post.date}}
+    </p>
+  </div>
 
 
 
@@ -12,14 +18,14 @@
 
 
 {% if user.is_authenticated %}
-{{ post.likes }}&nbsp;<a href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<a href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+      {{ post.likes }}&nbsp;<input type="button" value="Like" onclick="{% url 'blog:addLike' post.id %}"> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<input type="button" value="Dislike" onclick="{% url 'blog:addDislike' post.id %}">
 {% else %}
-{{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
+      {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
 {% endif %}
 
-
-<h3><a href="{% url 'blog:blog' blog.id %}">Return to blog</a></h3>
-
+ <div class="BlogButton"
+      <input type="button" value="Return to blog" onclick="{% url 'blog:blog' blog.id %}">
+ </div>
 
 
 <h3>Comments:</h3>
