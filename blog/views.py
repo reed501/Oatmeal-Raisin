@@ -8,7 +8,7 @@ from django.db.models import F
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
-from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
+from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog, CommentProfile
 from .forms import PostForm, SignUp, LogIn, CommentForm, BlogForm
 
 class BlogView(generic.ListView):
@@ -133,7 +133,7 @@ def addComment(request, pid):
             comm.save()
             post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
             post.save()
-            #CommentProfile.objects.create(comment_id=comm).update(profile=user)
+            CommentProfile.objects.create(comment_id=comm.id, profile_id=request.user.id)
             return redirect('blog:post', pid=pid)
     else:
         form = CommentForm()
