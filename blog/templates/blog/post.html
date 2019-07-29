@@ -51,7 +51,11 @@
   <div class="Post">
     <h3>{{ post.content }}</h3>
 
-    {{ post.likes }}&nbsp;<a href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<a href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+    {% if user.is_authenticated %}
+      {{ post.likes }}&nbsp;<a href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<a href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+    {% else %}
+      {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
+    {% endif %}
 
     <h3><a href="{% url 'blog:blog' blog.id %}">Return to blog</a></h3>
   </div>
@@ -63,7 +67,10 @@
         <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
     {% endfor %}
     </ul>
-    <h3><a href="{% url 'blog:addcomment' post.id %}">Make a New Comment</a></h3>
+
+    {% if user.is_authenticated %}
+      <h3><a href="{% url 'blog:addcomment' post.id %}">Make a New Comment</a></h3>
+    {% endif %}
   </div>
 
   <!-- Optional JavaScript -->

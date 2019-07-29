@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
 from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
@@ -81,8 +82,6 @@ def log_out(request):
     return HttpResponseRedirect('/')
 
 def addBlog(request, profid):
-    if not request.user.is_authenticated:
-        return redirect('blog:user', profid=profid)
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -98,8 +97,6 @@ def addBlog(request, profid):
     return render(request, 'blog/addblog.html', {'form': form})
 
 def addPost(request, bid):
-    if not request.user.is_authenticated:
-        return redirect('blog:blog', bid=bid)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -116,8 +113,6 @@ def addPost(request, bid):
     return render(request, 'blog/addpost.html', {'form': form})
 
 def addComment(request, pid):
-    if not request.user.is_authenticated:
-        return redirect('blog:post', pid=pid)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -134,17 +129,13 @@ def addComment(request, pid):
 
 def profile(request,profid):
     person = Profile.objects.get(id=profid)
-    args = {'user': person}
+    args = {'profile': person}
     return render(request, 'blog/profile.html', args)
 
 def addLike(request, pid):
-    if not request.user.is_authenticated:
-        return redirect('blog:post', pid=pid)
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
     return redirect('blog:post', pid=pid)
 
 def addDislike(request, pid):
-    if not request.user.is_authenticated:
-        return redirect('blog:post', pid=pid)
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
     return redirect('blog:post', pid=pid)
