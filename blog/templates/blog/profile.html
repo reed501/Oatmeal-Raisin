@@ -7,8 +7,20 @@
    {% block body %}
    <h1> OATMEAL RAISIN </h1>
    <h2> Profile</h2>
-   <p> Name: {{user.name}}</p>
-   <p> Bio: {{user.bio}}</p>
+   {{ profile.pic }}
+   <p> Name: {{ user.username }}</p>
+   <p> Birthday: {{ profile.birth }}</p>
+   <p> Bio: {{ profile.bio }}</p>
    {% endblock %}
 
-    <h3><a href="{% url 'blog:addblog' user.id %}">Make a Blog</a></h3>
+   <br>
+   <h3>My Blogs:</h3>
+    <ul>
+    {% for blog in blogs %}
+        <li><a href="{% url 'blog:blog' blog.id %}">{{ blog.blog_name }}</a></li>
+    {% endfor %}
+    </ul>
+
+   {% if user.is_authenticated %}
+     <h3><a href="{% url 'blog:addblog' user.id %}">Make a Blog</a></h3>
+   {% endif %}

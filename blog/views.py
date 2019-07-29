@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
 from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
@@ -33,6 +34,18 @@ class PostView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
         context['blog'] = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
+        return context
+
+class ProfileView(generic.ListView):
+    context_object_name = 'blogs'
+    template_name = 'blog/profile.html'
+
+    def get_queryset(self):
+        return Blog.objects.filter(profileblog__profile_id=self.kwargs['profid'])
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(id=self.kwargs['profid'])
         return context
 
 def log_in(request):
@@ -74,6 +87,11 @@ def make_account(request):
         form = SignUp()
 
     return render(request, 'blog/signup.html', {'form': form})
+
+def log_out(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect('/')
 
 def addBlog(request, profid):
     if request.method == 'POST':
@@ -121,11 +139,6 @@ def addComment(request, pid, profid):
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
-
-def profile(request,profid):
-    person = Profile.objects.get(id=profid)
-    args = {'user': person}
-    return render(request, 'blog/profile.html', args)
 
 def addLike(request, pid):
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
