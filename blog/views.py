@@ -133,7 +133,8 @@ def addComment(request, pid):
             comm.save()
             post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
             post.save()
-            CommentProfile.objects.create(comment_id=comm.id, profile_id=request.user.id)
+            cp = CommentProfile.objects.create(comment_id=comm.id, profile_id=request.user.id)
+            cp.save()
             return redirect('blog:post', pid=pid)
     else:
         form = CommentForm()
