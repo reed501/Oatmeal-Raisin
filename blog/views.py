@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils.timezone import datetime
 from django.db.models import F
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog
@@ -75,7 +75,14 @@ def make_account(request):
 
     return render(request, 'blog/signup.html', {'form': form})
 
+def log_out(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect('/')
+
 def addBlog(request, profid):
+    if not request.user.is_authenticated:
+        return redirect('blog:user', profid=profid)
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -91,6 +98,8 @@ def addBlog(request, profid):
     return render(request, 'blog/addblog.html', {'form': form})
 
 def addPost(request, bid):
+    if not request.user.is_authenticated:
+        return redirect('blog:blog', bid=bid)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -107,6 +116,8 @@ def addPost(request, bid):
     return render(request, 'blog/addpost.html', {'form': form})
 
 def addComment(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('blog:post', pid=pid)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -127,9 +138,13 @@ def profile(request,profid):
     return render(request, 'blog/profile.html', args)
 
 def addLike(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('blog:post', pid=pid)
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
     return redirect('blog:post', pid=pid)
 
 def addDislike(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('blog:post', pid=pid)
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
     return redirect('blog:post', pid=pid)
