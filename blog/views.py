@@ -36,6 +36,18 @@ class PostView(generic.ListView):
         context['blog'] = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
         return context
 
+class ProfileView(generic.ListView):
+    context_object_name = 'blogs'
+    template_name = 'blog/profile.html'
+
+    def get_queryset(self):
+        return Blog.objects.filter(profileblog__profile_id=self.kwargs['profid'])
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(id=self.kwargs['profid'])
+        return context
+
 def log_in(request):
     if request.method == 'POST':
         form = LogIn(request.POST)
@@ -126,11 +138,6 @@ def addComment(request, pid):
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
-
-def profile(request,profid):
-    person = Profile.objects.get(id=profid)
-    args = {'profile': person}
-    return render(request, 'blog/profile.html', args)
 
 def addLike(request, pid):
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
