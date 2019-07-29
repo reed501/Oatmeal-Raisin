@@ -106,7 +106,7 @@ def addPost(request, bid):
         form = PostForm()
     return render(request, 'blog/addpost.html', {'form': form})
 
-def addComment(request, pid):
+def addComment(request, pid, profid):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -115,7 +115,8 @@ def addComment(request, pid):
             comm.save()
             post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
             post.save()
-            #CommentProfile.objects.create(comment_id=comm).update(profile=user)
+            prof = CommentProfile.objects.creat(comment_id=comm.id, profile_id=profid)
+            prof.save()
             return redirect('blog:post', pid=pid)
     else:
         form = CommentForm()

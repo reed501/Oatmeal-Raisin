@@ -18,4 +18,4 @@
     <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
 {% endfor %}
 </ul>
-<h3><a href="{% url 'blog:addcomment' post.id %}">Make a New Comment</a></h3>
+<h3><a href="{% url 'blog:addcomment' post.id prof.id %}">Make a New Comment</a></h3>
