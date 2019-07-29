@@ -52,7 +52,9 @@
     {% endfor %}
     </ul>
 
-    <h3><a href="{% url 'blog:addpost' blog.id %}">Make a post</a></h3>
+    {% if user.is_authenticated %}
+      <h3><a href="{% url 'blog:addpost' blog.id %}">Make a post</a></h3>
+    {% endif %}
   </div>
 
 
