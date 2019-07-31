@@ -1,9 +1,39 @@
+body {
+    background-color: #EEE;
+    color: #252525;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h3 {
+    margin-left: 20px;
+}
+
+ul {
+    margin-left: 50px;
+}
+
+a, a:visited {
+    color: #19692C;
+    text-decoration: none;
+}
+
 a.button {
-    background-color: white;
-    color: black;
-    border: 2px solid green;
+    background-color: #28A745;
+    color: white;
+    border: none;
     padding: 5px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+}
+
+.byline {
+    text-align: center;
+}
+
+.postbox {
+    margin-left: 100px;
 }
