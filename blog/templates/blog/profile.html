@@ -37,9 +37,9 @@
         </center>
       </div>
 
-      {% if user.is_authenticated %}
-        <a class="button" href="{% url 'blog:addblog' user.id %}">Edit</a><br>
-        <a class="button" href="{% url 'blog:addblog' user.id %}">Save</a>
+      {% if user.id == profile.id %}
+        <a class="button" href="">Edit</a><br>
+        <a class="button" href="">Save</a>
       {% endif %}
 
   </form>
@@ -62,7 +62,7 @@
 
         </div>
 
-        {% if user.is_authenticated %}
+        {% if user.id == profile.id %}
         <a class="button" href="{% url 'blog:addblog' user.id %}">Add Blog</a>
         {% endif %}
 
