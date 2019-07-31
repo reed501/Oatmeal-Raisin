@@ -2,27 +2,29 @@
 {% block content %}
 
 
-  <div class="Title">
-    <h1>{{ post.title }}</h1>
-    <p><a href="{% url 'blog:user' profile.id %}">by {{ profileuser.first_name }} &nbsp; {{ profileuser.last_name }}</a>
-      <br>
-       {{post.date}}
-    </p>
+<h1>{{ post.title }}</h1>
+  <div class="byline">
+    <a href="{% url 'blog:user' profile.id %}">by {{ profileuser.first_name }} &nbsp; {{ profileuser.last_name }}</a>
+    <br>
+      {{post.date}}
   </div>
 
 
 <h3>{{ post.content }}</h3>
 
 
-{% if user.is_authenticated %}
-      {{ post.likes }} <a class="button" href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' post.id %}">Dislike</a>
-{% else %}
-      {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
-{% endif %}
+<div class="postbox">
+  {% if user.is_authenticated %}
+        {{ post.likes }} <a class="button" href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+  {% else %}
+        {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
+  {% endif %}
 
-<br><br>
+  <br><br>
 
-    <a class="button" href="{% url 'blog:blog' blog.id %}">Return to Blog</a>
+  <a class="button" href="{% url 'blog:blog' blog.id %}">Return to Blog</a>
+
+</div>
 
 
 <h3>Comments:</h3>
