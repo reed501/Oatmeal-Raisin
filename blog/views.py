@@ -20,7 +20,8 @@ class BlogView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['blog'] = Blog.objects.get(id=self.kwargs['bid'])
+        context['blog'] = blog = Blog.objects.get(id=self.kwargs['bid'])
+        context['profile'] = Profile.objects.get(profileblog__blog_id=blog.id)
         return context
 
 class PostView(generic.ListView):

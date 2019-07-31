@@ -12,7 +12,7 @@
   {% endfor %}
 </ul>
 
-{% if user.is_authenticated %}
+{% if user.id == profile.id %}
 <h3><a href="{% url 'blog:addpost' blog.id %}">Make a post</a></h3>
 {% endif %}
 
