@@ -82,8 +82,10 @@ def make_account(request):
 
             if password1 == password2:
                 user = User.objects.create_user(name, email, password1)
+                user.first_name = name
                 user.save()
-                Profile.objects.create(user_id=user.id, birth=datetime.now(), bio="", pic='default')
+                Profile.objects.create(user_id=user.id, birth=datetime.now(), bio="", pic='default.png')
+                login(request, user)
                 return redirect('blog:user', profid=user.id)
             else:
                 return HttpResponseRedirect('signup') #password doesnt match
@@ -137,7 +139,8 @@ def addComment(request, pid):
             comm.save()
             post = PostComment.objects.create(post_id=pid, comment_id=comm.id)
             post.save()
-            cp = CommentProfile.objects.create(comment_id=comm.id, profile_id=request.user.id)
+            profile = Profile.objects.get(user_id=request.user.id)
+            cp = CommentProfile.objects.create(comment_id=comm.id, profile_id=profile.id)
             cp.save()
             return redirect('blog:post', pid=pid)
     else:
