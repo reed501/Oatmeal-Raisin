@@ -21,7 +21,8 @@ class BlogView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['blog'] = blog = Blog.objects.get(id=self.kwargs['bid'])
-        context['profile'] = Profile.objects.get(profileblog__blog_id=blog.id)
+        context['profile'] = prof = Profile.objects.get(id=self.kwargs['profid'])
+        context['useraccount'] = User.objects.get(id=prof.user_id)
         return context
 
 class PostView(generic.ListView):
@@ -34,9 +35,9 @@ class PostView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(id=self.kwargs['pid'])
-        context['blog'] = blog = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
-        context['profile'] = prof = Profile.objects.get(profileblog__blog_id=blog.id)
-        context['profileuser'] = f = User.objects.get(id=prof.user_id)
+        context['blog'] = Blog.objects.get(id=self.kwargs['bid'])
+        context['profile'] = prof = Profile.objects.get(id=self.kwargs['profid'])
+        context['useraccount'] = User.objects.get(id=prof.user_id)
         return context
 
 class ProfileView(generic.ListView):
@@ -49,7 +50,7 @@ class ProfileView(generic.ListView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['profile'] = prof = Profile.objects.get(id=self.kwargs['profid'])
-        context['userprofile'] = User.objects.get(id=prof.user_id)
+        context['useraccount'] = User.objects.get(id=prof.user_id)
         return context
 
 def log_in(request):
@@ -63,7 +64,8 @@ def log_in(request):
             user = authenticate(request, username=name_form, password=password_form)
             if user is not None:
                 login(request, user)
-                return redirect('blog:user', profid=user.id)
+                prof = Profile.objects.get(user_id=user.id)
+                return redirect('blog:user', profid=prof.id, user=user.username)
             else:
                 return HttpResponseRedirect('/') #FAILED LOGIN, BACK TO LOGIN FORM
     else:
@@ -84,9 +86,9 @@ def make_account(request):
                 user = User.objects.create_user(name, email, password1)
                 user.first_name = name
                 user.save()
-                Profile.objects.create(user_id=user.id, birth=datetime.now(), bio="", pic='default.png')
+                prof = Profile.objects.create(user_id=user.id, birth=datetime.now(), bio="", pic='default.png')
                 login(request, user)
-                return redirect('blog:user', profid=user.id)
+                return redirect('blog:user', profid=prof.id, user=user.username)
             else:
                 return HttpResponseRedirect('signup') #password doesnt match
     else:
@@ -99,7 +101,7 @@ def log_out(request):
         logout(request)
     return HttpResponseRedirect('/')
 
-def addBlog(request, profid):
+def addBlog(request, profid, user):
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -109,12 +111,12 @@ def addBlog(request, profid):
             blog.save()
             pb = ProfileBlog.objects.create(profile_id=profid, blog_id=blog.id)
             pb.save()
-            return redirect('blog:blog', bid=blog.id)
+            return redirect('blog:blog', profid=profid, user=user, bid=blog.id)
     else:
         form = BlogForm()
     return render(request, 'blog/addblog.html', {'form': form})
 
-def addPost(request, bid):
+def addPost(request, profid, user, bid):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -124,13 +126,13 @@ def addPost(request, bid):
             post.save()
             bp = BlogPost.objects.create(blog_id=bid, post_id=post.id)
             bp.save()
-            return redirect('blog:blog', bid=bid)
+            return redirect('blog:blog', profid=profid, user=user, bid=bid)
 
     else:
         form = PostForm()
     return render(request, 'blog/addpost.html', {'form': form})
 
-def addComment(request, pid):
+def addComment(request, profid, user, bid, pid):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -142,15 +144,15 @@ def addComment(request, pid):
             profile = Profile.objects.get(user_id=request.user.id)
             cp = CommentProfile.objects.create(comment_id=comm.id, profile_id=profile.id)
             cp.save()
-            return redirect('blog:post', pid=pid)
+            return redirect('blog:post', profid=profid, user=user, bid=bid, pid=pid)
     else:
         form = CommentForm()
     return render(request, 'blog/addcomment.html', {'form' : form})
 
-def addLike(request, pid):
+def addLike(request, profid, user, bid, pid):
     Post.objects.filter(id=pid).update(likes=F('likes')+1)
-    return redirect('blog:post', pid=pid)
+    return redirect('blog:post', profid=profid, user=user, bid=bid, pid=pid)
 
-def addDislike(request, pid):
+def addDislike(request, profid, user, bid, pid):
     Post.objects.filter(id=pid).update(dislikes=F('dislikes')+1)
-    return redirect('blog:post', pid=pid)
+    return redirect('blog:post', profid=profid, user=user, bid=bid, pid=pid)
