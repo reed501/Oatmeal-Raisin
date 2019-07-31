@@ -4,3 +4,5 @@ blog/__pycache__/
 __pycache__/
 mysite/__pycache__/
 static/
+.vscode/
+.idea/
