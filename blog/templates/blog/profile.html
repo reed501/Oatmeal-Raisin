@@ -24,7 +24,7 @@
   <form>
     <center><br>
       <center>
-        <font size="6">Name: {{ userprofile.first_name }}  {{ userprofile.last_name }}</font>
+        <font size="6">Name: {{ useraccount.first_name }}  {{ useraccount.last_name }}</font>
         <br>
         <font size="6">Birthday: {{ profile.birth }}</font>
       </center>
@@ -56,14 +56,14 @@
         <div class="ex3">
           <ul>
             {% for blog in blogs %}
-            <li><a href="{% url 'blog:blog' blog.id %}">{{ blog.blog_name }}</a></li>
+            <li><a href="{% url 'blog:blog' profile.id useraccount.username blog.id %}">{{ blog.blog_name }}</a></li>
             {% endfor %}
           </ul>
 
         </div>
 
         {% if user.id == profile.id %}
-        <a class="button" href="{% url 'blog:addblog' user.id %}">Add Blog</a>
+        <a class="button" href="{% url 'blog:addblog' profile.id useraccount.username %}">Add Blog</a>
         {% endif %}
 
     </form>
