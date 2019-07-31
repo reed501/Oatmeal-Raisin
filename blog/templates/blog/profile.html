@@ -38,8 +38,8 @@
       </div>
 
       {% if user.is_authenticated %}
-      <br><br><input type="submit" name="" value="Edit">
-      <br><input type="submit" name="" value="Save">
+        <a class="button" href="{% url 'blog:addblog' user.id %}">Edit</a><br>
+        <a class="button" href="{% url 'blog:addblog' user.id %}">Save</a>
       {% endif %}
 
   </form>
@@ -63,7 +63,7 @@
         </div>
 
         {% if user.is_authenticated %}
-        <br><br><br><input type="submit" name="" value="Add Blog" href="{% url 'blog:addblog' user.id %}">
+        <a class="button" href="{% url 'blog:addblog' user.id %}">Add Blog</a>
         {% endif %}
 
     </form>

@@ -8,10 +8,6 @@ body{
     font-family: sans-serif;
 }
 
-a {
-  text-decoration: none; /* Removes the underline of the links */
-}
-
 .profilebox{
     width: 480px;
     height: 620px;
@@ -31,6 +27,36 @@ a {
     font-weight: bold;
 }
 
+.profilebox input{
+    width: 30%;
+    margin-bottom: 20px;
+}
+
+.profilebox input[type="text"], input[type="password"]
+{
+    border: none;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+}
+.profilebox input[type="submit"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #fb2525;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+}
+.profilebox input[type="submit"]:hover
+{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+}
 .profilebox a{
     text-decoration: none;
     font-size: 12px;
@@ -38,7 +64,10 @@ a {
     color: #ffff00;
 }
 
-
+.profilebox a:hover
+{
+    color: #778899;
+}
 .blogbox{
     width: 580px;
     height: 620px;
@@ -58,27 +87,42 @@ a {
     font-weight: bold;
 }
 
-a.button{
+<!--
+.blogbox input{
     width: 30%;
     margin-bottom: 20px;
-    padding: 14px 25px;
+}
+
+.blogbox input[type="text"], input[type="password"]
+{
+
+    border: none;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.blogbox input[type="submit"]
+{
     border: none;
     outline: none;
+    height: 40px;
     background: #fb2525;
     color: #fff;
     font-size: 18px;
-    text-align: center;
     border-radius: 20px;
-    display: inline-block;
 }
 
 
-a.button:hover
+.blogbox input[type="submit"]:hover
 {
     cursor: pointer;
     background: #ffc107;
     color: #000;
 }
+-->
 
 div.ex3 {
 
@@ -93,6 +137,40 @@ div .ex4{
   height: 250px;
   overflow: auto;
 text-align: left;
+}
+.profilebox a{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ffff00;
+}
+
+.profilebox a:hover
+{
+    color: #778899;
+}
+
+.signout input[type="submit"]
+{
+
+
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #fb2525;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+}
+.signout input[type="submit"]:hover
+{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+}
+
+a {
+  text-decoration: none; /* Removes the underline of the links */
 }
 
 /* Add a black background color to the top navigation */

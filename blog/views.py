@@ -128,7 +128,7 @@ def addPost(request, bid):
         form = PostForm()
     return render(request, 'blog/addpost.html', {'form': form})
 
-def addComment(request, pid, profid):
+def addComment(request, pid):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
