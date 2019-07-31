@@ -11,21 +11,18 @@
   </div>
 
 
-
 <h3>{{ post.content }}</h3>
 
 
-
-
 {% if user.is_authenticated %}
-      {{ post.likes }}&nbsp;<input type="button" value="Like" onclick="{% url 'blog:addLike' post.id %}"> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp;<input type="button" value="Dislike" onclick="{% url 'blog:addDislike' post.id %}">
+      {{ post.likes }} <a class="button" href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' post.id %}">Dislike</a>
 {% else %}
       {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
 {% endif %}
 
- <div class="BlogButton"
-      <input type="button" value="Return to blog" onclick="{% url 'blog:blog' blog.id %}">
- </div>
+<br><br>
+
+    <a class="button" href="{% url 'blog:blog' blog.id %}">Return to Blog</a>
 
 
 <h3>Comments:</h3>

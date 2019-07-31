@@ -36,7 +36,6 @@ class PostView(generic.ListView):
         context['blog'] = blog = Blog.objects.get(blogpost__post_id=self.kwargs['pid'])
         context['profile'] = prof = Profile.objects.get(profileblog__blog_id=blog.id)
         context['profileuser'] = f = User.objects.get(id=prof.user_id)
-        print(f.username)
         return context
 
 class ProfileView(generic.ListView):
