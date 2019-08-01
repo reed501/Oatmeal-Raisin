@@ -2,16 +2,16 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    name = models.CharField(max_length=40)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     birth = models.DateField()
-    password = models.CharField(max_length=30)
-    email = models.CharField(max_length=40)
     bio = models.CharField(max_length=300)
+    pic = models.ImageField(upload_to='pics/')
 
     def __str__(self):
-        return self.name
+        return self.user
 
 class Blog(models.Model):
     blog_name = models.CharField(max_length=50)

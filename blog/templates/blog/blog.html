@@ -1,8 +1,20 @@
-<h1>Blog Description: {{ blog.blog_desc }}</h1>
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<h2>Blog Description: {{ blog.blog_desc }}</h2>
 <h3>Posts:</h3>
 
+
 <ul>
-{% for post in posts %}
-    <li><a href="{% url 'blog:comment' post.id %}">{{ post.content }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
-{% endfor %}
+  {% for post in posts %}
+  <li><a href="{% url 'blog:post' post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+  {% endfor %}
 </ul>
+
+{% if user.id == profile.id %}
+<h3><a href="{% url 'blog:addpost' blog.id %}">Make a post</a></h3>
+{% endif %}
+
+{% endblock %}
+
