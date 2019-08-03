@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import Blog, Post, BlogPost, Comment, PostComment, Profile, ProfileBlog, CommentProfile
-from .forms import PostForm, SignUp, LogIn, CommentForm, BlogForm
+from .forms import PostForm, SignUp, LogIn, CommentForm, BlogForm, EditForm
 
 class BlogView(generic.ListView):
     context_object_name = 'posts'
@@ -100,6 +100,37 @@ def log_out(request):
     if request.user.is_authenticated:
         logout(request)
     return HttpResponseRedirect('/')
+
+def edit_profile(request, profid, user):
+    if request.method == 'POST':
+        form = EditForm(request.POST)
+        if form.is_valid():
+            userx = request.user
+            name = User.objects.get(id=userx.id)
+            profile = Profile.objects.get(id=profid)
+            if form.data['fname'] == '':
+                fname = name.first_name
+            else:
+                fname = form.cleaned_data['fname']
+            if form.data['lname'] == '':
+                lname = name.last_name
+            else:
+                lname = form.cleaned_data['lname']
+            if form.data['bio'] == '':
+                bio = profile.bio
+            else:
+                bio = form.cleaned_data['bio']
+
+            if request.user.is_authenticated:
+                Profile.objects.filter(id=profid).update(bio=bio)
+                User.objects.filter(id=userx.id).update(first_name=fname, last_name=lname)
+
+            return redirect('blog:user', profid=profid, user=user)
+        else:
+            print (form.errors)
+    else:
+        form = EditForm()
+    return render(request, 'blog/editprofile.html', {'form': form})
 
 def addBlog(request, profid, user):
     if request.method == 'POST':

@@ -20,3 +20,8 @@ class CommentForm(forms.Form):
 class BlogForm(forms.Form):
     title = forms.CharField(label='title', max_length=50)
     desc = forms.CharField(label='desc', max_length=200)
+
+class EditForm(forms.Form):
+    fname = forms.CharField(required=False, label='First Name', max_length=20, widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    lname = forms.CharField(required=False, label='Last Name', max_length=20, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    bio = forms.CharField(required=False, label='Bio', max_length=300, widget=forms.TextInput(attrs={'placeholder': 'Edit Bio'}))
