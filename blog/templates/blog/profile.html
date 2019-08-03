@@ -37,7 +37,7 @@
       </div>
 
       {% if user.id == profile.id %}
-        <a class="button" href="{% url 'blog:editprofile' user.id %}">Edit</a>
+        <a class="button" href="{% url 'blog:editprofile' profile.id useraccount.username %}">Edit</a>
       {% endif %}
 
   </form>
