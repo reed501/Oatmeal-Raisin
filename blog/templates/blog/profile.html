@@ -6,14 +6,16 @@
 
 
 <div class="topnav">
-  <a  href="#home">Oatmeal & Raisin</a>
-
-
-
-
+  {% if user.is_authenticated %}
+  <a href="{% url 'blog:user' profile.id useraccount.username %}">Oatmeal&Raisin</a>
+  {% else %}
+  <a href="/">Oatmeal&Raisin</a>
+  {% endif %}
   <div class="topnav-right">
     {% if user.is_authenticated %}
     <a align="right" href="{% url 'blog:logout' %}" role="button">Log Out</a>
+    {% else %}
+    <a align="right" href="/" role="button">Log In</a>
     {% endif %}
   </div>
 </div>
@@ -35,7 +37,7 @@
         <p>{{ profile.bio }}</p>
 
       </div>
-
+      <br><br>
       {% if user.id == profile.id %}
         <a class="button" href="{% url 'blog:editprofile' profile.id useraccount.username %}">Edit</a>
       {% endif %}
