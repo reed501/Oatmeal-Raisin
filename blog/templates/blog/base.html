@@ -22,7 +22,7 @@
 
   <nav class="navbar navbar-light bg-light">
     {% if user.is_authenticated %}
-    <a class="navbar-brand" href="{% url 'blog:user' user.id %}">Oatmeal&Raisin</a>
+    <a class="navbar-brand" href="{% url 'blog:user' profile.id useraccount.username %}">Oatmeal&Raisin</a>
     {% else %}
     <a class="navbar-brand" href="/">Oatmeal&Raisin</a>
     {% endif %}

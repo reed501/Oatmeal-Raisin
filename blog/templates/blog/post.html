@@ -4,7 +4,7 @@
 
 <h1>{{ post.title }}</h1>
   <div class="byline">
-    <a href="{% url 'blog:user' profile.id %}">by {{ profileuser.first_name }} &nbsp; {{ profileuser.last_name }}</a>
+    <a href="{% url 'blog:user' profile.id useraccount.username %}">by {{ useraccount.first_name }} &nbsp; {{ useraccount.last_name }}</a>
     <br>
       {{post.date}}
   </div>
@@ -15,14 +15,14 @@
 
 <div class="postbox">
   {% if user.is_authenticated %}
-        {{ post.likes }} <a class="button" href="{% url 'blog:addLike' post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' post.id %}">Dislike</a>
+        {{ post.likes }} <a class="button" href="{% url 'blog:addLike' profile.id useraccount.username blog.id post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' profile.id useraccount.username blog.id post.id %}">Dislike</a>
   {% else %}
         {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
   {% endif %}
 
   <br><br>
 
-  <a class="button" href="{% url 'blog:blog' blog.id %}">Return to Blog</a>
+  <a class="button" href="{% url 'blog:blog' profile.id useraccount.username blog.id %}">Return to Blog</a>
 
 </div>
 
@@ -35,7 +35,7 @@
 </ul>
 
 {% if user.is_authenticated %}
-<h3><a href="{% url 'blog:addcomment' post.id %}">Make a New Comment</a></h3>
+<h3><a href="{% url 'blog:addcomment' profile.id useraccount.username blog.id post.id %}">Make a New Comment</a></h3>
 {% endif %}
 
 

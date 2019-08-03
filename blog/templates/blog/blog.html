@@ -8,12 +8,12 @@
 
 <ul>
   {% for post in posts %}
-  <li><a href="{% url 'blog:post' post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+  <li><a href="{% url 'blog:post' profile.id useraccount.username blog.id post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
   {% endfor %}
 </ul>
 
 {% if user.id == profile.id %}
-<h3><a href="{% url 'blog:addpost' blog.id %}">Make a post</a></h3>
+<h3><a href="{% url 'blog:addpost' profile.id useraccount.username blog.id %}">Make a post</a></h3>
 {% endif %}
 
 {% endblock %}
