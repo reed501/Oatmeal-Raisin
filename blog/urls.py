@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:pid>/comments', views.PostView.as_view(), name='post'),
     path('<int:profid>/profile', views.ProfileView.as_view(), name='user'),
     path('<int:profid>/addblog', views.addBlog, name='addblog'),
+    path('<int:profid>/edit', views.edit_profile, name='editprofile'),
     path('<int:bid>/addpost', views.addPost, name='addpost'),
     path('<int:pid>/addcomment', views.addComment, name='addcomment'),
     path('<int:pid>/addLike', views.addLike, name='addLike'),

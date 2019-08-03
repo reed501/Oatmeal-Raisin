@@ -26,20 +26,18 @@
       <center>
         <font size="6">Name: {{ userprofile.first_name }}  {{ userprofile.last_name }}</font>
         <br>
-        <font size="6">Birthday: {{ profile.birth }}</font>
+        <font size="3">Created: {{ profile.birth }}</font>
       </center>
       <br>
 
       <font size="4">Bio:</font><br><br>
       <div class="ex4">
-        <center>
         <p>{{ profile.bio }}</p>
-        </center>
+
       </div>
 
       {% if user.id == profile.id %}
-        <a class="button" href="">Edit</a><br>
-        <a class="button" href="">Save</a>
+        <a class="button" href="{% url 'blog:editprofile' user.id %}">Edit</a>
       {% endif %}
 
   </form>
