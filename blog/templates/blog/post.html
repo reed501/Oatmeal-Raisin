@@ -1,16 +1,32 @@
-{% extends 'blog/base.html' %}
-{% block content %}
+{% load static %}
 
+<html>
 
+<div class="topnav">
+  <a href="#">Oatmeal&Raisin</a>
+  <div class="topnav-right">
+    {% if user.is_authenticated %}
+    <a align="right" href="{% url 'blog:logout' %}" role="button">Log Out</a>
+    {% endif %}
+  </div>
+</div>
+
+<head>
+  <title>Post</title>
+  <link rel="stylesheet" type="text/css" href="{% static "blog/addPost.css" %}">
+
+<body>
+  <div class="addPostbox">
+      <h1>Post Title:</h1>
 <h1>{{ post.title }}</h1>
   <div class="byline">
-    <a href="{% url 'blog:user' profile.id useraccount.username %}">by {{ useraccount.first_name }} &nbsp; {{ useraccount.last_name }}</a>
+    <center><a href="{% url 'blog:user' profile.id useraccount.username %}">by {{ useraccount.first_name }} {{ useraccount.last_name }}</a>
     <br>
       {{post.date}}
   </div>
-
-
-<h3>{{ post.content }}</h3>
+<center>
+<h3>Post Content:</h3>
+<p>{{ post.content }}</p>
 
 
 <div class="postbox">
@@ -21,22 +37,33 @@
   {% endif %}
 
   <br><br>
+<form action="{% url 'blog:blog' profile.id useraccount.username blog.id %}">
+      <center><input type="submit" value="Return To Blog"></center>
+</form>
 
-  <a class="button" href="{% url 'blog:blog' profile.id useraccount.username blog.id %}">Return to Blog</a>
 
 </div>
 
 
 <h3>Comments:</h3>
-<ul>
-  {% for com in comments %}
+    <div class="ex3">
+          <ul>
+            {% for com in comments %}
   <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
   {% endfor %}
-</ul>
-
+          </ul>
+    </div>
+<div>
 {% if user.is_authenticated %}
-<h3><a href="{% url 'blog:addcomment' profile.id useraccount.username blog.id post.id %}">Make a New Comment</a></h3>
+        <form action="{% url 'blog:addcomment' profile.id useraccount.username blog.id post.id %}">
+      <br><center><input type="submit" value="New Comment"></center>
+</form>
 {% endif %}
 
 
-{% endblock %}
+  </div>
+
+</body>
+</head>
+
+</html>
