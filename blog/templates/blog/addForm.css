@@ -7,10 +7,10 @@ body{
     font-family: sans-serif;
 }
 
-.addPostbox{
+.addBox{
     width: 900px;
     height: 770px;
-    background: gray;
+    background: rgba(100,100,100,.9);
     color: black;
     top: 59%;
     left: 50%;
@@ -28,28 +28,18 @@ h1{
     font-size: 22px;
 }
 
-.addPostbox p{
+.addBox p{
     margin: 0;
     padding: 0;
     font-weight: bold;
 }
 
-.addPostbox input{
+.addBox input{
     width: 100%;
     margin-bottom: 20px;
 }
 
-.addPostbox input[type="text"], input[type="password"]
-{
-    border: none;
-    border-bottom: 1px solid #fff;
-    background: transparent;
-    outline: none;
-    height: 40px;
-    color: black;
-    font-size: 16px;
-}
-.addPostbox input[type="submit"]
+.addBox input[type="submit"]
 {
     width: 30%;
     margin-bottom: 20px;
@@ -62,26 +52,26 @@ h1{
     text-align: center;
     border-radius: 20px;
     display: inline-block;
-
 }
-.addPostbox input[type="submit"]:hover
+
+.addBox input[type="submit"]:hover
 {
     cursor: pointer;
     background: #ffc107;
     color: #000;
 }
-.addPostbox a{
+
+.addBox a{
     text-decoration: none;
     font-size: 12px;
     line-height: 20px;
-    color: #fff00;
+    color: #ffff00;
 }
 
-.addPostbox a:hover
+.addBox a:hover
 {
     color: #778899;
 }
-
 
 /* Add a black background color to the top navigation */
 .topnav {
@@ -108,10 +98,10 @@ h1{
 .topnav-right {
   float: right;
 }
-div.ex3 {
 
+div.ex3 {
   width: 600px;
   height: 100px;
   overflow: auto;
-text-align: left;
+  text-align: left;
 }

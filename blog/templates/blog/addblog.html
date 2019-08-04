@@ -13,10 +13,10 @@
 
 <head>
   <title>AddBlog</title>
-  <link rel="stylesheet" type="text/css" href="{% static "blog/addBlog.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "blog/addForm.css" %}">
 
 <body>
-  <div class="addBlogbox">
+  <div class="addBox">
     <form method="post">
       {% csrf_token %}
       {{ form  }}

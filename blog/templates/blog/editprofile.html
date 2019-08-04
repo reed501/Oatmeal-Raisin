@@ -1,7 +1,7 @@
 {% load static %}
 
 <html>
-<link rel="stylesheet" type="text/css" href="{% static "blog/addBlog.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "blog/addForm.css" %}">
 <div class="topnav">
   <a href="#">Oatmeal&Raisin</a>
   <div class="topnav-right">
@@ -17,7 +17,7 @@
   <title>Edit</title>
 
 <body>
-  <div class="addBlogbox">
+  <div class="addBox">
     <form method="post">
       {% csrf_token %}
       {{ form  }}

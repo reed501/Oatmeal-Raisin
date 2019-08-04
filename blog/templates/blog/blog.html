@@ -19,27 +19,29 @@
 
 <head>
   <title>Blog</title>
-  <link rel="stylesheet" type="text/css" href="{% static "blog/addPost.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "blog/blog.css" %}">
 
 <body>
-  <div class="addPostbox">
-<h2>Blog Description: {{ blog.blog_desc }}</h2>
-<h3>Posts:</h3>
+<div class="blogBox">
+  <h1>{{ blog.blog_name }}</h1>
+  <h2>{{ blog.blog_desc }}</h2>
+  <h3>Posts:</h3>
 
 
-<ul>
-  {% for post in posts %}
-  <li><a href="{% url 'blog:post' profile.id useraccount.username blog.id post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
-  {% endfor %}
-</ul>
+  <center><div class="list">
+  <ul>
+    {% for post in posts %}
+    <li><a href="{% url 'blog:post' profile.id useraccount.username blog.id post.id %}">{{ post.title }}</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.likes }} :) &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} :(</li>
+    {% endfor %}
+  </ul>
+  </div></center>
 
-{% if user.id == profile.id %}
-    <form action="{% url 'blog:addpost' profile.id useraccount.username blog.id %}">
-      <center><input type="submit" value="Add Post"></center></form>
+  {% if user.id == profile.id %}
+      <center><a class="button" href="{% url 'blog:addpost' profile.id useraccount.username blog.id %}">Add Post</a></center>
 
-{% endif %}
+  {% endif %}
 
-  </div>
+</div>
 
 </body>
 </head>

@@ -16,48 +16,36 @@
   <link rel="stylesheet" type="text/css" href="{% static "blog/post.css" %}">
 
 <body>
-  <div class="addPostbox">
-      <h1>Post Title:</h1>
-<h1>{{ post.title }}</h1>
+<div class="post">
+  <h1>{{ post.title }}</h1>
   <div class="byline">
     <center><a href="{% url 'blog:user' profile.id useraccount.username %}">by {{ useraccount.first_name }} {{ useraccount.last_name }}</a>
     <br>
       {{post.date}}
   </div>
-<center>
-<h3>Post Content:</h3>
-<p>{{ post.content }}</p>
+<h3>{{ post.content }}</h3>
 
 
-<div class="postbox">
   {% if user.is_authenticated %}
-        {{ post.likes }} <a class="button" href="{% url 'blog:addLike' profile.id useraccount.username blog.id post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button" href="{% url 'blog:addDislike' profile.id useraccount.username blog.id post.id %}">Dislike</a>
+        {{ post.likes }} <a class="button2" href="{% url 'blog:addLike' profile.id useraccount.username blog.id post.id %}">Like</a> &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }} <a class="button2" href="{% url 'blog:addDislike' profile.id useraccount.username blog.id post.id %}">Dislike</a>
   {% else %}
         {{ post.likes }} &nbsp; Like &nbsp;&nbsp;&nbsp;&nbsp; {{ post.dislikes }}&nbsp; Dislike
   {% endif %}
 
   <br><br>
-<form action="{% url 'blog:blog' profile.id useraccount.username blog.id %}">
-      <center><input type="submit" value="Return To Blog"></center>
-</form>
-
-
-</div>
+      <center><a class="button" href="{% url 'blog:blog' profile.id useraccount.username blog.id %}">Return To Blog</a></center>
 
 
 <h3>Comments:</h3>
-    <div class="ex3">
-          <ul>
-            {% for com in comments %}
-  <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
-  {% endfor %}
-          </ul>
-    </div>
-<div>
+    <center><div class="list">
+      <ul>
+        {% for com in comments %}
+          <li>{{ com.content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ com.date }}</li>
+        {% endfor %}
+       </ul>
+    </div></center>
 {% if user.is_authenticated %}
-        <form action="{% url 'blog:addcomment' profile.id useraccount.username blog.id post.id %}">
-      <br><center><input type="submit" value="New Comment"></center>
-</form>
+      <br><center><a class="button" href="{% url 'blog:addcomment' profile.id useraccount.username blog.id post.id %}">New Comment</a></center>
 {% endif %}
 
 

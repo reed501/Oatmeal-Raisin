@@ -16,10 +16,10 @@
 
 <head>
   <title>AddComment</title>
-  <link rel="stylesheet" type="text/css" href="{% static "blog/addPost.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "blog/addForm.css" %}">
 
 <body>
-  <div class="addPostbox">
+  <div class="addBox">
     <form method="post">
       {% csrf_token %}
       {{ form  }}
