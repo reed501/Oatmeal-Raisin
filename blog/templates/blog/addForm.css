@@ -73,13 +73,11 @@ h1{
     color: #778899;
 }
 
-/* Add a black background color to the top navigation */
 .topnav {
   background-color: rgba(100,100,100,.5);
   overflow: hidden;
 }
 
-/* Style the links inside the navigation bar */
 .topnav a {
   float: left;
   color: #f2f2f2;
@@ -89,7 +87,6 @@ h1{
   font-size: 17px;
 }
 
-/* Change the color of links on hover */
 .topnav a:hover {
   background-color: #ddd;
   color: black;

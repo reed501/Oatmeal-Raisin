@@ -26,10 +26,6 @@ h1{
     padding: 0 0 25px;
 }
 
-.byline a{
-    
-}
-
 a.button
 {
     width: 30%;
@@ -75,12 +71,12 @@ a.button2:hover
 a{
     text-decoration: none;
     line-height: 20px;
-    color: #ffff00;
+    color: hotpink;
 }
 
 a:hover
 {
-    color: #778899;
+    color: pink;
 }
 
 .topnav {

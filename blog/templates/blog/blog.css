@@ -51,12 +51,12 @@ a.button:hover
 a{
     text-decoration: none;
     line-height: 20px;
-    color: #ffff00;
+    color: hotpink;
 }
 
 a:hover
 {
-    color: #778899;
+    color: pink;
 }
 
 .topnav {

@@ -103,11 +103,11 @@ def log_out(request):
 
 def edit_profile(request, profid, user):
     if request.method == 'POST':
+        profile = Profile.objects.get(id=profid)
         form = EditForm(request.POST)
         if form.is_valid():
             userx = request.user
             name = User.objects.get(id=userx.id)
-            profile = Profile.objects.get(id=profid)
             if form.data['fname'] == '':
                 fname = name.first_name
             else:
@@ -120,11 +120,9 @@ def edit_profile(request, profid, user):
                 bio = profile.bio
             else:
                 bio = form.cleaned_data['bio']
-
             if request.user.is_authenticated:
                 Profile.objects.filter(id=profid).update(bio=bio)
                 User.objects.filter(id=userx.id).update(first_name=fname, last_name=lname)
-
             return redirect('blog:user', profid=profid, user=user)
         else:
             print (form.errors)
